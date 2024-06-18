@@ -17,8 +17,8 @@ class Tela_Login(tk.Frame):
         #Senha
         senha_label = tk.Label(self, text="Senha", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
         senha_label.pack(pady=5)
-        senha_entry = ttk.Entry(self, font=('Helvetica', 12), show="*")
-        senha_entry.pack(pady=10, ipadx=20, ipady=6)
+        self.senha_entry = ttk.Entry(self, font=('Helvetica', 12), show="*")
+        self.senha_entry.pack(pady=10, ipadx=20, ipady=6)
 
         #Botão
         bt_entrar = tk.Button(self,
