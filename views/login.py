@@ -38,7 +38,7 @@ class Tela_Login(tk.Frame):
 
         # TODO: Replace this with actual login validation logic
         if email == "admin" and senha == "1234":
-            self.controller.role = "Engineer"  # Example role
+            self.controller.role = "Cientista"  # Example role
             self.controller.liderFaccao = True  # Example liderFaccao status
             self.controller.frames["Tela_Relatorio"].update_buttons()  # Update buttons on the report screen
             self.controller.show_frame("Tela_Overview")
