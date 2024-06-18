@@ -33,9 +33,10 @@ class Tela_Login(tk.Frame):
 
         # TODO: Replace this with actual login validation logic
         if email == "admin" and senha == "1234":
-            self.controller.role = "Cientista"  # Example role
+            self.controller.role = "Oficial"  # Example role
             self.controller.liderFaccao = True  # Example liderFaccao status
             self.controller.frames["Tela_Relatorio"].update_buttons()  # Update buttons on the report screen
+            self.controller.frames["Tela_Overview"].update_overview("Admin", 1)  # Example name and ID
             self.controller.show_frame("Tela_Overview")
         else:
             messagebox.showwarning(title="Erro", message="Credenciais inválidas")
