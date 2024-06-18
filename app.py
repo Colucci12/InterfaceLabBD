@@ -1,5 +1,4 @@
 import tkinter as tk
-
 from views.login import Tela_Login
 from views.overview import Tela_Overview
 from views.relatorio import Tela_Relatorio
@@ -11,6 +10,10 @@ class App(tk.Tk):
         self.title("Navegação entre Páginas")
         self.geometry("800x600")
         self.configure(bg="#2C2F33")
+
+        # Initialize role and liderFaccao before creating frames
+        self.role = None
+        self.liderFaccao = False
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -28,7 +31,6 @@ class App(tk.Tk):
     def show_frame(self, page_name):
         frame = self.frames[page_name]
         frame.tkraise()
-
 
 if __name__ == "__main__":
     app = App()
