@@ -3,6 +3,7 @@ from .bancoOficial import BancoOficial
 from .bancoCientista import BancoCientista
 from .bancoComandante import BancoComandante
 from .bancoVerificar import BancoVerificar
+from .bancoSample import BancoSample
 
 mapa = {
     'Oficial': BancoOficial,
@@ -11,25 +12,37 @@ mapa = {
     'Cientista': BancoCientista
 }
 
-def login(key: str, senha: int):
+def login(key: int, senha: str):
 
     bdVerificar = BancoVerificar()
-    retorno_verificacao = bdVerificar.verificar(key, senha) #TODO: realmente verificar
-    del bdVerificar
+    retorno_login = bdVerificar.login(key, senha)
 
-    temp = []
-    for x in retorno_verificacao:
-        if x in mapa:
-            temp.append(mapa[x])
+    if not retorno_login:
+        del bdVerificar
+        return 'Erro inesperado.'
 
-    perfis = tuple(temp)
-    class BancoUsuario(*perfis):
-        def __init__(self):
-            pass
+    elif retorno_login == 500:
+        del bdVerificar
+        return 'Erro na conexão.'
 
-        def guarda_login(self, key):
-            self.key = key
+    elif retorno_login == 404:
+        del bdVerificar
+        return 'Usuário não encontrado.'
 
-    banco = BancoUsuario()
-    banco.guarda_login(key)
-    return banco
+    elif retorno_login == 401:
+        del bdVerificar
+        return 'Senha incorreta'
+
+    elif retorno_login == 200:
+        overview = bdVerificar.verificar(key)
+        del bdVerificar
+
+        dados = {
+            'id': overview[0],
+            'cpi': overview[1].strip(),
+            'nome': overview[2].strip(),
+            'cargo': overview[3].strip(),
+            'lider_faccao': overview[4].strip()
+        }
+
+        return dados

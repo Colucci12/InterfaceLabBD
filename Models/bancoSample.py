@@ -10,7 +10,13 @@ class BancoSample():
         return cls._instance
 
     def __init__(self):
-        with open('credentials.json', 'r') as file:
+        self.id = int
+        self.cpi = str
+        self.nome = str
+        self.cargo = str
+        self.lider_faccao = bool
+
+        with open('Models/credentials.json', 'r') as file:
             credentials = json.load(file)
 
         try:
@@ -22,8 +28,10 @@ class BancoSample():
                                                password=credentials['password'],
                                                dsn=dsn)
 
+            self.cursor = self.connection.cursor()
+
         except:
-            self.__del__()
+            self._instance = None
             raise oracledb.DatabaseError
 
     def __del__(self):

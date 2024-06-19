@@ -1,3 +1,8 @@
+from InterfaceLabBD.Models.bancoTudo import BancoTudo
 from InterfaceLabBD.Models import login
 
-conexao_banco = login('corute', 1234)
+acessos = login(2, 'senha_padrao')
+banco = BancoTudo()
+banco.preencher(acessos)
+
+x = banco.relatorio_lider('faccao')
