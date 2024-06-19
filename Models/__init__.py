@@ -5,10 +5,10 @@ from .bancoComandante import BancoComandante
 from .bancoVerificar import BancoVerificar
 
 mapa = {
-    'C': BancoCientista,
-    'L': BancoLider,
+    'Oficial': BancoOficial,
+    'Lider': BancoLider,
     'Comandante': BancoComandante,
-    'Oficial': BancoOficial
+    'Cientista': BancoCientista
 }
 
 def login(key: str, senha: int):
@@ -17,12 +17,19 @@ def login(key: str, senha: int):
     retorno_verificacao = bdVerificar.verificar(key, senha) #TODO: realmente verificar
     del bdVerificar
 
-    perfis = tuple(mapa[char] for char in retorno_verificacao if char in mapa)
+    temp = []
+    for x in retorno_verificacao:
+        if x in mapa:
+            temp.append(mapa[x])
+
+    perfis = tuple(temp)
     class BancoUsuario(*perfis):
-        def __init__(self, key):
+        def __init__(self):
+            pass
+
+        def guarda_login(self, key):
             self.key = key
 
-        def teste(self):
-            print('Teste com êxito!')
-
-    return BancoUsuario(key)
+    banco = BancoUsuario()
+    banco.guarda_login(key)
+    return banco
