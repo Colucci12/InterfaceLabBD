@@ -10,6 +10,7 @@ from views.f_liderFaccao import Tela_LiderFaccao
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.banco = None
 
         self.title("Navegação entre Páginas")
         self.geometry("800x600")

@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+from InterfaceLabBD.Models.bancoTudo import BancoTudo
+from InterfaceLabBD.Models import login
 
 class Tela_Login(tk.Frame):
     def __init__(self, parent, controller):
@@ -31,7 +33,19 @@ class Tela_Login(tk.Frame):
         email = self.email_entry.get()
         senha = self.senha_entry.get()
 
-        # TODO: Replace this with actual login validation logic
+        #EXCEMPLO
+        acessos = login(email, senha)
+        if type(acessos) == dict:
+            #TODO: aqui dentro acontece o login
+            self.controller.banco = BancoTudo()
+            self.controller.banco.preencher(acessos)
+            self.controller.show_frame("Tela_Overview")
+
+        else:
+            messagebox.showwarning(title="Erro", message=acessos)
+
+            #TINHA
+# TODO: Replace this with actual login validation logic
         if email == "admin" and senha == "1234":
             self.controller.role = "Comandante"  # Example role
             self.controller.liderFaccao = True  # Example liderFaccao status
