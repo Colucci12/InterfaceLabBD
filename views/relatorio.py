@@ -25,6 +25,10 @@ class Tela_Relatorio(tk.Frame):
 
         self.update_buttons()  # Call update_buttons during initialization
 
+        # Variables to store the selected options
+        self.selected_lider_option = tk.StringVar(value="")
+        self.selected_oficial_option = tk.StringVar(value="")
+
     def botao_overview(self):
         self.controller.show_frame("Tela_Overview")
 
@@ -50,6 +54,24 @@ class Tela_Relatorio(tk.Frame):
                                        )
             oficial_button.grid(row=row_counter, column=0, pady=10, padx=10, sticky="w")
             row_counter += 1
+
+            # Add Checkbuttons for selection options
+            self.options_oficial = [("Facção", "faccao"), ("Espécie", "especie"), ("Planeta", "planeta"), ("Sistema", "sistema")]
+            self.checkbuttons_oficial = {}
+            for option_text, option_value in self.options_oficial:
+                var = tk.StringVar(value="")
+                cb = tk.Checkbutton(self.button_frame,
+                                    text=option_text,
+                                    variable=var,
+                                    onvalue=option_value,
+                                    offvalue="",
+                                    bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'),
+                                    selectcolor='#2C2F33', activebackground='#7289DA', activeforeground='white',
+                                    command=lambda v=option_value: self.toggle_checkbutton(v, self.checkbuttons_oficial, self.selected_oficial_option)
+                                    )
+                cb.grid(row=row_counter, column=0, pady=5, padx=10, sticky="w")
+                self.checkbuttons_oficial[option_value] = var
+                row_counter += 1
 
         if role == "Comandante":
             comandante_button1 = tk.Button(self.button_frame,
@@ -94,14 +116,6 @@ class Tela_Relatorio(tk.Frame):
             row_counter += 1
 
         if liderFaccao:
-            faction_button = tk.Button(self.button_frame,
-                                       text="Leader Faction Action",
-                                       command=self.liderFaccao_action,
-                                       bg='#7289DA', fg='white', font=('Helvetica', 12, 'bold')
-                                       )
-            faction_button.grid(row=row_counter, column=0, pady=10, padx=10, sticky="w")
-
-        if liderFaccao:
             lider_faccao_button = tk.Button(self.button_frame,
                                             text="Relatório da Facção do Líder",
                                             command=self.lider_faccao_action,
@@ -110,13 +124,45 @@ class Tela_Relatorio(tk.Frame):
             lider_faccao_button.grid(row=row_counter, column=0, pady=10, padx=10, sticky="w")
             row_counter += 1
 
+            # Add Checkbuttons for selection options
+            self.options_lider = [("Nação", "nacao"), ("Espécie", "especie"), ("Planeta", "planeta"),
+                                  ("Sistema", "sistema")]
+            self.checkbuttons_lider = {}
+            for option_text, option_value in self.options_lider:
+                var = tk.StringVar(value="")
+                cb = tk.Checkbutton(self.button_frame,
+                                    text=option_text,
+                                    variable=var,
+                                    onvalue=option_value,
+                                    offvalue="",
+                                    bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'),
+                                    selectcolor='#2C2F33', activebackground='#7289DA', activeforeground='white',
+                                    command=lambda v=option_value: self.toggle_checkbutton(v, self.checkbuttons_lider,
+                                                                                           self.selected_lider_option)
+                                    )
+                cb.grid(row=row_counter, column=0, pady=5, padx=10, sticky="w")
+                self.checkbuttons_lider[option_value] = var
+                row_counter += 1
+
+    def toggle_checkbutton(self, value, checkbuttons, selected_var):
+        # Deselect other checkbuttons if one is selected
+        if checkbuttons[value].get() == value:
+            selected_var.set(value)
+            for opt, var in checkbuttons.items():
+                if opt != value:
+                    var.set("")
+        else:
+            selected_var.set("")
+
     def lider_faccao_action(self):
         # Placeholder action for Lider da Facção report
-        print("Lider da Facção report action executed")
+        selected_option = self.selected_lider_option.get()
+        print(f"Lider da Facção report action executed with selection: {selected_option}")
 
     def oficial_action(self):
         # Placeholder action for Oficial report
-        print("Oficial report action executed")
+        selected_option = self.selected_oficial_option.get()
+        print(f"Oficial report action executed with selection: {selected_option}")
 
     def comandante_planetas_dominados_action(self):
         # Placeholder action for Comandante - Planetas Dominados report
@@ -138,6 +184,3 @@ class Tela_Relatorio(tk.Frame):
         # Placeholder action for Cientista - Sistemas report
         print("Cientista - Sistemas report action executed")
 
-    def liderFaccao_action(self):
-        # Placeholder action for Leader Faction report
-        print("Leader Faction report action executed")
