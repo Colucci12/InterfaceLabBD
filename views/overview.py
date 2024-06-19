@@ -9,14 +9,33 @@ class Tela_Overview(tk.Frame):
         # Configure the grid to center the elements
         self.grid_columnconfigure(0, weight=1)
 
-        txt_label = tk.Label(self, text="Tela Overview", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
+        txt_label = tk.Label(self, text="Tela Overview", bg="#2C2F33", fg="white", font=('Helvetica', 14, 'bold'))
         txt_label.grid(row=0, column=0, pady=5, sticky="n")
 
-        self.nome_label = tk.Label(self, text="Nome: ", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
-        self.nome_label.grid(row=1, column=0, pady=5, sticky="n")
+        self.nome_titulo_label = tk.Label(self, text="Nome:", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
+        self.nome_titulo_label.grid(row=1, column=0, pady=5, sticky="n")
+        self.nome_label = tk.Label(self, text="", bg="#2C2F33", fg="white", font=('Helvetica', 12))
+        self.nome_label.grid(row=2, column=0, pady=5, sticky="n")
 
-        self.id_label = tk.Label(self, text="ID: ", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
-        self.id_label.grid(row=2, column=0, pady=5, sticky="n")
+        self.id_titulo_label = tk.Label(self, text="ID:", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
+        self.id_titulo_label.grid(row=3, column=0, pady=5, sticky="n")
+        self.id_label = tk.Label(self, text="", bg="#2C2F33", fg="white", font=('Helvetica', 12))
+        self.id_label.grid(row=4, column=0, pady=5, sticky="n")
+
+        self.cpi_lider_titulo_label = tk.Label(self, text="CPI do Líder:", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
+        self.cpi_lider_titulo_label.grid(row=5, column=0, pady=5, sticky="n")
+        self.cpi_lider_label = tk.Label(self, text="", bg="#2C2F33", fg="white", font=('Helvetica', 12))
+        self.cpi_lider_label.grid(row=6, column=0, pady=5, sticky="n")
+
+        self.cargo_lider_titulo_label = tk.Label(self, text="Cargo do Líder:", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
+        self.cargo_lider_titulo_label.grid(row=7, column=0, pady=5, sticky="n")
+        self.cargo_lider_label = tk.Label(self, text="", bg="#2C2F33", fg="white", font=('Helvetica', 12))
+        self.cargo_lider_label.grid(row=8, column=0, pady=5, sticky="n")
+
+        self.eh_lider_faccao_titulo_label = tk.Label(self, text="É Líder da Facção:", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
+        self.eh_lider_faccao_titulo_label.grid(row=9, column=0, pady=5, sticky="n")
+        self.eh_lider_faccao_label = tk.Label(self, text="", bg="#2C2F33", fg="white", font=('Helvetica', 12))
+        self.eh_lider_faccao_label.grid(row=10, column=0, pady=5, sticky="n")
 
         self.bt_func_cargo = tk.Button(self,
                                        text="Funcionalidade Cargo",
@@ -25,7 +44,7 @@ class Tela_Overview(tk.Frame):
                                        fg='white',
                                        font=('Helvetica', 12, 'bold')
                                        )
-        self.bt_func_cargo.grid(row=3, column=0, pady=10, ipadx=20, ipady=6, sticky="n")
+        self.bt_func_cargo.grid(row=11, column=0, pady=10, ipadx=20, ipady=6, sticky="n")
 
         self.bt_func_lider = tk.Button(self,
                                        text="Funcionalidade Líder Facção",
@@ -34,7 +53,7 @@ class Tela_Overview(tk.Frame):
                                        fg='white',
                                        font=('Helvetica', 12, 'bold')
                                        )
-        self.bt_func_lider.grid(row=4, column=0, pady=10, ipadx=20, ipady=6, sticky="n")
+        self.bt_func_lider.grid(row=12, column=0, pady=10, ipadx=20, ipady=6, sticky="n")
         self.bt_func_lider.grid_remove()  # Initially hide the button
 
         self.bt_relatorio = tk.Button(self,
@@ -44,7 +63,7 @@ class Tela_Overview(tk.Frame):
                                       fg='white',
                                       font=('Helvetica', 12, 'bold')
                                       )
-        self.bt_relatorio.grid(row=5, column=0, pady=10, ipadx=20, ipady=6, sticky="n")
+        self.bt_relatorio.grid(row=13, column=0, pady=10, ipadx=20, ipady=6, sticky="n")
 
     def botao_func_cargo(self):
         role = self.controller.role
@@ -61,14 +80,17 @@ class Tela_Overview(tk.Frame):
     def botao_relatorio(self):
         self.controller.show_frame("Tela_Relatorio")
 
-    def update_overview(self, nome, id):
+    def update_overview(self, nome, id, cpi_lider, cargo_lider, eh_lider_faccao):
         if not nome:
             nome = "Sem nome"
-        self.nome_label.config(text=f"Nome: {nome}")
-        self.id_label.config(text=f"ID: {id}")
+        self.nome_label.config(text=nome)
+        self.id_label.config(text=id)
+        self.cpi_lider_label.config(text=cpi_lider)
+        self.cargo_lider_label.config(text=cargo_lider)
+        self.eh_lider_faccao_label.config(text="Sim" if eh_lider_faccao else "Não")
 
-        # Show or hide the leader faction button based on liderFaccao
-        if self.controller.liderFaccao:
+        # Show or hide the leader faction button based on eh_lider_faccao
+        if eh_lider_faccao:
             self.bt_func_lider.grid()
         else:
             self.bt_func_lider.grid_remove()
