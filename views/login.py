@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 from tkinter import messagebox
 
 class Tela_Login(tk.Frame):
@@ -8,28 +7,24 @@ class Tela_Login(tk.Frame):
         self.controller = controller
         self.configure(bg="#2C2F33")
 
-        style = ttk.Style()
-        style.configure("TButton", font=('Helvetica', 12, 'bold'), background='#7289DA', foreground='white')
-        style.configure("TLabel", font=('Helvetica', 12, 'bold'), background='#2C2F33', foreground='white')
-
         # Email
-        email_label = ttk.Label(self, text="Email")
+        email_label = tk.Label(self, text="Email", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
         email_label.pack(pady=5)
-        self.email_entry = ttk.Entry(self, font=('Helvetica', 12))
+        self.email_entry = tk.Entry(self, font=('Helvetica', 12))
         self.email_entry.pack(pady=10, ipadx=20, ipady=6)
 
         # Senha
-        senha_label = ttk.Label(self, text="Senha")
+        senha_label = tk.Label(self, text="Senha", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
         senha_label.pack(pady=5)
-        self.senha_entry = ttk.Entry(self, font=('Helvetica', 12), show="*")
+        self.senha_entry = tk.Entry(self, font=('Helvetica', 12), show="*")
         self.senha_entry.pack(pady=10, ipadx=20, ipady=6)
 
         # Botão
-        bt_entrar = ttk.Button(self,
-                               text="Entrar",
-                               command=self.botao_login,
-                               style="TButton"
-                               )
+        bt_entrar = tk.Button(self,
+                              text="Entrar",
+                              command=self.botao_login,
+                              bg='#7289DA', fg='white', font=('Helvetica', 12, 'bold')
+                              )
         bt_entrar.pack(pady=10, ipadx=20, ipady=6)
 
     def botao_login(self):
@@ -38,9 +33,10 @@ class Tela_Login(tk.Frame):
 
         # TODO: Replace this with actual login validation logic
         if email == "admin" and senha == "1234":
-            self.controller.role = "Cientista"  # Example role
+            self.controller.role = "Oficial"  # Example role
             self.controller.liderFaccao = True  # Example liderFaccao status
             self.controller.frames["Tela_Relatorio"].update_buttons()  # Update buttons on the report screen
+            self.controller.frames["Tela_Overview"].update_overview("Admin", 1)  # Example name and ID
             self.controller.show_frame("Tela_Overview")
         else:
             messagebox.showwarning(title="Erro", message="Credenciais inválidas")
