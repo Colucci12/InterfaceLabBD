@@ -13,7 +13,7 @@ class App(tk.Tk):
         self.banco = None
 
         self.title("Navegação entre Páginas")
-        self.geometry("1400x600")
+        self.geometry("800x600")
         self.configure(bg="#2C2F33")
 
         self.grid_rowconfigure(0, weight=1)

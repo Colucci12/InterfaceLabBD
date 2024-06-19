@@ -84,7 +84,7 @@ class Tela_Overview(tk.Frame):
         self.nome_label.config(text=self.controller.banco.nome)
         self.id_label.config(text=self.controller.banco.id)
         self.cpi_lider_label.config(text=self.controller.banco.cpi)
-        self.cargo_lider_label.config(text=self.controller.banco.lider_faccao)
+        self.cargo_lider_label.config(text=self.controller.banco.cargo)
         self.eh_lider_faccao_label.config(text="Sim" if self.controller.banco.lider_faccao else "Não")
 
         # Show or hide the leader faction button based on eh_lider_faccao

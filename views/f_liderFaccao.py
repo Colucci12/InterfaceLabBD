@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 class Tela_LiderFaccao(tk.Frame):
     def __init__(self, parent, controller):
@@ -15,7 +16,7 @@ class Tela_LiderFaccao(tk.Frame):
 
         # Container 1: Nome da Facção
         faccao_frame = tk.Frame(single_frame, bg="#2C2F33", relief="raised", bd=2)
-        faccao_frame.pack(pady=10, fill=tk.BOTH, expand=True)
+        faccao_frame.pack(pady=1, fill=tk.BOTH, expand=True)
 
         tk.Label(faccao_frame, text="Nome da Facção", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
         self.faccao_nome_entry = tk.Entry(faccao_frame, font=('Helvetica', 12))
@@ -29,7 +30,7 @@ class Tela_LiderFaccao(tk.Frame):
 
         # Container 2: CPI
         cpi_frame = tk.Frame(single_frame, bg="#2C2F33", relief="raised", bd=2)
-        cpi_frame.pack(pady=10, fill=tk.BOTH, expand=True)
+        cpi_frame.pack(pady=1, fill=tk.BOTH, expand=True)
 
         tk.Label(cpi_frame, text="CPI", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
         self.cpi_text = tk.Text(cpi_frame, height=4, font=('Helvetica', 12))
@@ -57,7 +58,7 @@ class Tela_LiderFaccao(tk.Frame):
 
         # Container 4: Credenciar Comunidade
         comunidade_frame = tk.Frame(single_frame, bg="#2C2F33", relief="raised", bd=2)
-        comunidade_frame.pack(pady=10, fill=tk.BOTH, expand=True)
+        comunidade_frame.pack(pady=1, fill=tk.BOTH, expand=True)
 
         tk.Label(comunidade_frame, text="Espécie", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
         self.especie_entry = tk.Entry(comunidade_frame, font=('Helvetica', 12))
@@ -90,12 +91,16 @@ class Tela_LiderFaccao(tk.Frame):
         bt_voltar.pack(pady=10, ipadx=20, ipady=6)
 
     def confirmar_faccao(self):
-        # Lógica para confirmar nome da facção
-        pass
+        nome = self.faccao_nome_entry.get()
+        resposta = self.controller.banco.lider_alterarnome_faccao(nome)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
 
     def indicar_lider(self):
-        # Lógica para indicar novo líder
-        pass
+        cpi = self.cpi_text.get()
+        resposta = self.controller.banco.lider_indicar_novo(cpi)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
 
     def remover_nacao(self):
         # Lógica para remover nação

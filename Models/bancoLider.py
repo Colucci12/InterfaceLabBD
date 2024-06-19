@@ -31,3 +31,23 @@ class BancoLider(BancoSample):
         except oracledb.DatabaseError as e:
             erro, = e.args
             return erro.message
+
+    def lider_credenciar_comunidade(self, faccao, especie, comunidade, planeta):
+        try:
+            self.cursor.callproc('PACKAGE_FUNCIONALIDADES.FUNCLIDER_CREDENCIARCOMUNIDADE', [self.id, faccao, especie, comunidade, planeta])
+
+            return 'SUCESSO'
+
+        except oracledb.DatabaseError as e:
+            erro, = e.args
+            return erro.message
+
+    def lider_remover_faccao_nacao(self, nacao):
+        try:
+            self.cursor.callproc('PACKAGE_FUNCIONALIDADES.FUNCLIDER_REMOVERFACCAONACAO', [self.id, nacao])
+
+            return 'SUCESSO'
+
+        except oracledb.DatabaseError as e:
+            erro, = e.args
+            return erro.message
