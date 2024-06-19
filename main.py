@@ -1,5 +1,3 @@
 from InterfaceLabBD.Models import login
 
-bd = login('Colucci', 1234)
-bd.teste()
-print(bd)
+conexao_banco = login('corute', 1234)

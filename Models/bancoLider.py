@@ -1,5 +1,5 @@
 from .bancoSample import BancoSample
 
 class BancoLider(BancoSample):
-    def __init__(self):
+    def lider(self):
         print('Iniciou Lider!')

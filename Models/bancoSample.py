@@ -2,6 +2,13 @@ import oracledb
 import json
 
 class BancoSample():
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(BancoSample, cls).__new__(cls)
+        return cls._instance
+
     def __init__(self):
         with open('credentials.json', 'r') as file:
             credentials = json.load(file)
@@ -16,4 +23,8 @@ class BancoSample():
                                                dsn=dsn)
 
         except:
+            self.__del__()
             raise oracledb.DatabaseError
+
+    def __del__(self):
+        self._instance = None

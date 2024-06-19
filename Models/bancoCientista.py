@@ -1,5 +1,5 @@
 from .bancoSample import BancoSample
 
 class BancoCientista(BancoSample):
-    def __init__(self):
+    def cietista(self):
         print('Iniciou cientista!')
