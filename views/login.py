@@ -39,18 +39,9 @@ class Tela_Login(tk.Frame):
             #TODO: aqui dentro acontece o login
             self.controller.banco = BancoTudo()
             self.controller.banco.preencher(acessos)
+            self.controller.frames['Tela_Relatorio'].update_buttons()
+            self.controller.frames['Tela_Overview'].update_overview()
             self.controller.show_frame("Tela_Overview")
 
         else:
             messagebox.showwarning(title="Erro", message=acessos)
-
-            #TINHA
-# TODO: Replace this with actual login validation logic
-        if email == "admin" and senha == "1234":
-            self.controller.role = "Comandante"  # Example role
-            self.controller.liderFaccao = True  # Example liderFaccao status
-            self.controller.frames["Tela_Relatorio"].update_buttons()  # Update buttons on the report screen
-            self.controller.frames["Tela_Overview"].update_overview("Admin", 1)  # Example name and ID
-            self.controller.show_frame("Tela_Overview")
-        else:
-            messagebox.showwarning(title="Erro", message="Credenciais inválidas")

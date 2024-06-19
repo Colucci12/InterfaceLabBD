@@ -24,8 +24,6 @@ class Tela_Relatorio(tk.Frame):
         self.button_frame = tk.Frame(self, bg="#2C2F33")
         self.button_frame.grid(row=3, column=0, pady=10, padx=10, sticky="w")
 
-        self.update_buttons()  # Call update_buttons during initialization
-
         # Variable to store the selected option
         self.selected_option = tk.StringVar(value="")
 
@@ -40,11 +38,11 @@ class Tela_Relatorio(tk.Frame):
         for widget in self.button_frame.winfo_children():
             widget.destroy()  # Clear previous buttons
 
-        role = self.controller.role
-        liderFaccao = self.controller.liderFaccao
+        cargo = self.controller.banco.cargo
+        liderFaccao = self.controller.banco.lider_faccao
 
-        if role:
-            self.role_label.config(text=f"Role: {role}")
+        if cargo:
+            self.role_label.config(text=f"Role: {cargo.capitalize()}")
 
         row_counter = 0
 
@@ -58,7 +56,8 @@ class Tela_Relatorio(tk.Frame):
             row_counter += 1
 
             # Add Checkbuttons for selection options
-            self.options_lider = [("Nação", "nacao"), ("Espécie", "especie"), ("Planeta", "planeta"), ("Sistema", "sistema")]
+            self.options_lider = [("Nação", "nacao"), ("Espécie", "especie"), ("Planeta", "planeta"),
+                                  ("Sistema", "sistema")]
             self.checkbuttons_lider = {}
             for option_text, option_value in self.options_lider:
                 var = tk.StringVar(value="")
@@ -75,7 +74,7 @@ class Tela_Relatorio(tk.Frame):
                 self.checkbuttons_lider[option_value] = var
                 row_counter += 1
 
-        if role == "Oficial":
+        if cargo == "OFIFICAL":
             oficial_button = tk.Button(self.button_frame,
                                        text="Relatório do Oficial",
                                        command=self.oficial_action,
@@ -85,7 +84,8 @@ class Tela_Relatorio(tk.Frame):
             row_counter += 1
 
             # Add Checkbuttons for selection options
-            self.options_oficial = [("Facção", "faccao"), ("Espécie", "especie"), ("Planeta", "planeta"), ("Sistema", "sistema")]
+            self.options_oficial = [("Facção", "faccao"), ("Espécie", "especie"), ("Planeta", "planeta"),
+                                    ("Sistema", "sistema")]
             self.checkbuttons_oficial = {}
             for option_text, option_value in self.options_oficial:
                 var = tk.StringVar(value="")
@@ -102,7 +102,7 @@ class Tela_Relatorio(tk.Frame):
                 self.checkbuttons_oficial[option_value] = var
                 row_counter += 1
 
-        if role == "Comandante":
+        if cargo == "COMANDANTE":
             comandante_button1 = tk.Button(self.button_frame,
                                            text="Relatório de Planetas Dominados",
                                            command=self.comandante_planetas_dominados_action,
@@ -119,7 +119,7 @@ class Tela_Relatorio(tk.Frame):
             comandante_button2.grid(row=row_counter, column=0, pady=10, padx=10, sticky="w")
             row_counter += 1
 
-        if role == "Cientista":
+        if cargo == "CIENTISTA":
             cientista_button1 = tk.Button(self.button_frame,
                                           text="Relatório de Estrelas",
                                           command=self.cientista_estrelas_action,
@@ -144,8 +144,6 @@ class Tela_Relatorio(tk.Frame):
             cientista_button3.grid(row=row_counter, column=0, pady=10, padx=10, sticky="w")
             row_counter += 1
 
-
-
     def toggle_checkbutton(self, value, checkbuttons):
         # Deselect other checkbuttons if one is selected
         if checkbuttons[value].get() == value:
@@ -160,48 +158,58 @@ class Tela_Relatorio(tk.Frame):
         self.clear_table()
         selected_option = self.selected_option.get()
         print(f"Lider da Facção report action executed with selection: {selected_option}")
-        columns = ("faccao_lider", "faccao_nome", "comunidade_nome", "qtd_habitantes", "nacao", "especie", "planeta", "planeta_classificacao", "sistema")
+        columns = ("faccao_lider", "faccao_nome", "comunidade_nome", "qtd_habitantes", "nacao", "especie", "planeta",
+                   "planeta_classificacao", "sistema")
         self.create_table(columns)
+        rows = self.controller.banco.relatorio_lider(selected_option)
+        self.populate_table(rows)
 
     def oficial_action(self):
         self.clear_table()
         selected_option = self.selected_option.get()
         print(f"Oficial report action executed with selection: {selected_option}")
-        columns = ("planeta", "especie", "comunidade_nome", "qtd_habitantes", "data_ini", "data_fim", "nacao_nome", "faccao", "sistema")
+        columns = (
+        "planeta", "especie", "comunidade_nome", "qtd_habitantes", "data_ini", "data_fim", "nacao_nome", "faccao",
+        "sistema")
         self.create_table(columns)
+        rows = self.controller.banco.relatorio_oficial(selected_option)
+        self.populate_table(rows)
 
     def comandante_planetas_dominados_action(self):
         self.clear_table()
-        columns = ("planeta", "NacaoDominante", "DataInicioDominancia", "DataFimDominancia", "QuantidadeComunidades", "QuantidadeEspecies", "QuantidadeHabitantes", "QuantidadeFaccoes", "FaccaoMajoritaria")
+        columns = ("planeta", "NacaoDominante", "DataInicioDominancia", "DataFimDominancia", "QuantidadeComunidades",
+                   "QuantidadeEspecies", "QuantidadeHabitantes", "QuantidadeFaccoes", "FaccaoMajoritaria")
         self.create_table(columns)
+        rows = self.controller.banco.relatorio_comandante_dominados()
+        self.populate_table(rows)
 
     def comandante_planetas_potencial_dominacao_action(self):
         self.clear_table()
         columns = ("planeta", "sistema")
         self.create_table(columns)
+        rows = self.controller.banco.relatorio_comandante_potencial()
+        self.populate_table(rows)
 
     def cientista_estrelas_action(self):
         self.clear_table()
         columns = ("id_estrela", "nome", "classificacao", "massa", "x", "y", "z")
         self.create_table(columns)
+        rows = self.controller.banco.relatorio_cientista_estrela()
+        self.populate_table(rows)
 
     def cientista_planetas_action(self):
         self.clear_table()
         columns = ("id_astro", "massa", "raio", "classificacao")
         self.create_table(columns)
+        rows = self.controller.banco.relatorio_cientista_planeta()
+        self.populate_table(rows)
 
     def cientista_sistemas_action(self):
         self.clear_table()
         columns = ("estrela", "nome")
         self.create_table(columns)
-
-    def liderFaccao_action(self):
-        self.clear_table()
-        selected_option = self.selected_option.get()
-        print(f"Leader Faction report action executed with selection: {selected_option}")
-        # Simulate table creation based on selected option
-        columns = (selected_option,)
-        self.create_table(columns)
+        rows = self.controller.banco.relatorio_cientista_sistema()
+        self.populate_table(rows)
 
     def create_table(self, columns):
         self.tree = ttk.Treeview(self.table_frame, columns=columns, show="headings")
@@ -213,3 +221,7 @@ class Tela_Relatorio(tk.Frame):
     def clear_table(self):
         for widget in self.table_frame.winfo_children():
             widget.destroy()
+
+    def populate_table(self, rows):
+        for row in rows:
+            self.tree.insert("", "end", values=row)

@@ -13,19 +13,15 @@ class App(tk.Tk):
         self.banco = None
 
         self.title("Navegação entre Páginas")
-        self.geometry("800x600")
+        self.geometry("1400x600")
         self.configure(bg="#2C2F33")
-
-        # Initialize role and liderFaccao before creating frames
-        self.role = None
-        self.liderFaccao = False
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
         for F in (
-        Tela_Login, Tela_Overview, Tela_Relatorio, Tela_Cientista, Tela_Comandante, Tela_Oficial, Tela_LiderFaccao):
+        Tela_Login, Tela_Overview, Tela_Cientista, Tela_Comandante, Tela_Oficial, Tela_LiderFaccao, Tela_Relatorio):
             page_name = F.__name__
             frame = F(parent=self, controller=self)
             self.frames[page_name] = frame

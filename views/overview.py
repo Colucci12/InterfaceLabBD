@@ -66,12 +66,12 @@ class Tela_Overview(tk.Frame):
         self.bt_relatorio.grid(row=13, column=0, pady=10, ipadx=20, ipady=6, sticky="n")
 
     def botao_func_cargo(self):
-        role = self.controller.role
-        if role == "Cientista":
+        role = self.controller.banco.cargo
+        if role == "CIENTISTA":
             self.controller.show_frame("Tela_Cientista")
-        elif role == "Comandante":
+        elif role == "COMANDANTE":
             self.controller.show_frame("Tela_Comandante")
-        elif role == "Oficial":
+        elif role == "OFICIAL":
             self.controller.show_frame("Tela_Oficial")
 
     def botao_func_lider(self):
@@ -80,17 +80,18 @@ class Tela_Overview(tk.Frame):
     def botao_relatorio(self):
         self.controller.show_frame("Tela_Relatorio")
 
-    def update_overview(self, nome, id, cpi_lider, cargo_lider, eh_lider_faccao):
-        if not nome:
-            nome = "Sem nome"
-        self.nome_label.config(text=nome)
-        self.id_label.config(text=id)
-        self.cpi_lider_label.config(text=cpi_lider)
-        self.cargo_lider_label.config(text=cargo_lider)
-        self.eh_lider_faccao_label.config(text="Sim" if eh_lider_faccao else "Não")
+    def update_overview(self):
+        self.nome_label.config(text=self.controller.banco.nome)
+        self.id_label.config(text=self.controller.banco.id)
+        self.cpi_lider_label.config(text=self.controller.banco.cpi)
+        self.cargo_lider_label.config(text=self.controller.banco.lider_faccao)
+        self.eh_lider_faccao_label.config(text="Sim" if self.controller.banco.lider_faccao else "Não")
 
         # Show or hide the leader faction button based on eh_lider_faccao
-        if eh_lider_faccao:
+        if self.controller.banco.lider_faccao:
             self.bt_func_lider.grid()
         else:
             self.bt_func_lider.grid_remove()
+
+    def print(self):
+        print(self.controller.banco.nome)
