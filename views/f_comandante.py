@@ -30,7 +30,7 @@ class Tela_Comandante(tk.Frame):
         excluir_nacao_frame = tk.Frame(main_frame, bg="#2C2F33", highlightbackground="white", highlightthickness=1)
         excluir_nacao_frame.pack(pady=5, fill=tk.BOTH, expand=True)
 
-        tk.Label(excluir_nacao_frame, text="Sua Nação Está na Federação", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
+        tk.Label(excluir_nacao_frame, text="Clique para excluir sua Nação da Federação", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
         tk.Button(excluir_nacao_frame,
                   text="Excluir Nação",
                   command=self.excluir_nacao,
