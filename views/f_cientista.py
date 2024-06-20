@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 class Tela_Cientista(tk.Frame):
     def __init__(self, parent, controller):
@@ -115,13 +116,35 @@ class Tela_Cientista(tk.Frame):
         bt_voltar.pack(pady=10, ipadx=20, ipady=6)
 
     def criar_estrela(self):
-        # Lógica para criar estrela
-        pass
+        estrela = self.create_id_entry.get()
+        nome = self.create_nome_entry.get()
+        classificacao = self.create_classificacao_entry.get()
+        massa = self.create_massa_entry.get()
+        x = self.create_x_entry.get()
+        y = self.create_y_entry.get()
+        z = self.create_z_entry.get()
+
+        resposta = self.controller.banco.insere_estrela(estrela, nome, classificacao, massa, x, y, z)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
 
     def remover_estrela(self):
-        # Lógica para remover estrela
-        pass
+        id_antigo = self.update_id_entry.get()
+        id_novo = self.update_new_id_entry.get()
+        nome = self.update_nome_entry.get()
+        classificacao = self.update_classificacao_entry.get()
+        massa = self.update_massa_entry.get()
+        x = self.update_x_entry.get()
+        y = self.update_x_entry.get()
+        z = self.update_z_entry.get()
+
+        resposta = self.controller.banco.altera_estrela(id_antigo, id_novo, nome, classificacao, massa, x, y, z)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
 
     def atualizar_estrela(self):
-        # Lógica para atualizar estrela
-        pass
+        estrela = self.remove_id_entry.get()
+
+        resposta = self.controller.banco.remove_estrela(estrela)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")

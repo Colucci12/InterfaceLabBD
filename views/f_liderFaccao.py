@@ -33,8 +33,8 @@ class Tela_LiderFaccao(tk.Frame):
         cpi_frame.pack(pady=1, fill=tk.BOTH, expand=True)
 
         tk.Label(cpi_frame, text="CPI", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
-        self.cpi_text = tk.Text(cpi_frame, height=4, font=('Helvetica', 12))
-        self.cpi_text.pack(pady=5, ipadx=20, ipady=5)
+        self.cpi_entry = tk.Entry(cpi_frame, font=('Helvetica', 12))
+        self.cpi_entry.pack(pady=5, ipadx=20, ipady=5)
 
         tk.Button(cpi_frame,
                   text="Indicar Novo Líder",
@@ -68,9 +68,9 @@ class Tela_LiderFaccao(tk.Frame):
         self.comunidade_entry = tk.Entry(comunidade_frame, font=('Helvetica', 12))
         self.comunidade_entry.pack(pady=5, ipadx=20, ipady=5)
 
-        tk.Label(comunidade_frame, text="Quantidade de Habitantes", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
-        self.habitantes_entry = tk.Entry(comunidade_frame, font=('Helvetica', 12))
-        self.habitantes_entry.pack(pady=5, ipadx=20, ipady=5)
+        tk.Label(comunidade_frame, text="Faccao", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
+        self.faccao_entry = tk.Entry(comunidade_frame, font=('Helvetica', 12))
+        self.faccao_entry.pack(pady=5, ipadx=20, ipady=5)
 
         tk.Label(comunidade_frame, text="Planeta", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold')).pack(pady=5)
         self.planeta_entry = tk.Entry(comunidade_frame, font=('Helvetica', 12))
@@ -97,15 +97,23 @@ class Tela_LiderFaccao(tk.Frame):
         self.controller.show_frame("Tela_Overview")
 
     def indicar_lider(self):
-        cpi = self.cpi_text.get()
+        cpi = self.cpi_entry.get()
         resposta = self.controller.banco.lider_indicar_novo(cpi)
         messagebox.showinfo(title='AVISO', message=resposta)
         self.controller.show_frame("Tela_Overview")
 
     def remover_nacao(self):
-        # Lógica para remover nação
-        pass
+        nacao = self.remocao_nacao_entry.get()
+        resposta = self.controller.banco.lider_remover_faccao_nacao(nacao)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
 
     def credenciar_comunidade(self):
-        # Lógica para credenciar comunidade
-        pass
+        especie = self.especie_entry.get()
+        comunidade = self.comunidade_entry.get()
+        faccao = self.faccao_entry.get()
+        planeta = self.planeta_entry.get()
+
+        resposta = self.controller.banco.lider_credenciar_comunidade(faccao, especie, comunidade, planeta)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")

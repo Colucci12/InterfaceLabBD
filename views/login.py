@@ -10,7 +10,7 @@ class Tela_Login(tk.Frame):
         self.configure(bg="#2C2F33")
 
         # Email
-        email_label = tk.Label(self, text="Email", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
+        email_label = tk.Label(self, text="ID", bg="#2C2F33", fg="white", font=('Helvetica', 12, 'bold'))
         email_label.pack(pady=5)
         self.email_entry = tk.Entry(self, font=('Helvetica', 12))
         self.email_entry.pack(pady=10, ipadx=20, ipady=6)

@@ -1,3 +1,4 @@
+import oracledb
 from .bancoSample import BancoSample
 
 class BancoCientista(BancoSample):
@@ -21,3 +22,33 @@ class BancoCientista(BancoSample):
         self.cursor.callproc('PACKAGE_RELATORIOS.PROCED_RELATORIO_CIENTISTA_SISTEMAS', [ref_cursor])
 
         return ref_cursor.fetchall()
+
+    def insere_estrela(self, estrela, nome, classificacao, massa, x, y, z):
+        try:
+            self.cursor.callproc('PACKAGE_FUNCIONALIDADES.FUNCCIENTISTA_INSEREESTRELA', [self.id, estrela, nome, classificacao, massa, x, y, z])
+
+            return 'SUCESSO'
+
+        except oracledb.DatabaseError as e:
+            erro, = e.args
+            return erro.message
+
+    def altera_estrela(self, antigo_estrela, novo_estrela, nome, classificacao, massa, x, y, z):
+        try:
+            self.cursor.callproc('PACKAGE_FUNCIONALIDADES.FUNCCIENTISTA_ATUALIZAESTRELA', [self.id, antigo_estrela, novo_estrela, nome, classificacao, massa, x, y, z])
+
+            return 'SUCESSO'
+
+        except oracledb.DatabaseError as e:
+            erro, = e.args
+            return erro.message
+
+    def remove_estrela(self, estrela):
+        try:
+            self.cursor.callproc('PACKAGE_FUNCIONALIDADES.FUNCCIENTISTA_REMOVEESTRELA', [self.id, estrela])
+
+            return 'SUCESSO'
+
+        except oracledb.DatabaseError as e:
+            erro, = e.args
+            return erro.message

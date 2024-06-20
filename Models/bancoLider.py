@@ -10,7 +10,9 @@ class BancoLider(BancoSample):
         ref_cursor = self.connection.cursor()
         self.cursor.callproc('PACKAGE_RELATORIOS.PROCED_RELATORIO_LIDERFACCAO', [self.id, agrupamento, ref_cursor])
 
-        return ref_cursor.fetchall()
+        temp = ref_cursor.fetchall()
+        print(temp)
+        return temp
 
     def lider_alterarnome_faccao(self, novonome):
         try:
