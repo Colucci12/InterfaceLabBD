@@ -8,6 +8,7 @@
 Antes de rodar a aplicação, você precisa ter instalado:
 - Python 3.6 ou superior
 - As dependências listadas no arquivo `requirements.txt`
+- PS: Usamos o pycharm para interface usando tkinter (mas gerou muitas inconsistencias, entre elas o fato de que só conseguimos rodar a aplicação usando a IDE "PyCharm")
 
 ## Instalação
 

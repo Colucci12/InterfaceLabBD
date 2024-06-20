@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 class Tela_Comandante(tk.Frame):
     def __init__(self, parent, controller):
@@ -73,17 +74,27 @@ class Tela_Comandante(tk.Frame):
         bt_voltar.pack(pady=10, ipadx=20, ipady=6)
 
     def incluir_nacao(self):
-        # Lógica para incluir nação na federação
-        pass
+        federacao = self.incluir_nacao_entry.get()
+
+        resposta = self.controller.banco.incluir_nacao_federacao(federacao)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
 
     def excluir_nacao(self):
-        # Lógica para excluir nação da federação
-        pass
+        resposta = self.controller.banco.excluir_nacao_federacao()
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
 
     def criar_federacao(self):
-        # Lógica para criar federação
-        pass
+        federacao = self.criar_federacao_entry.get()
+
+        resposta = self.controller.banco.criar_federacao(federacao)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
 
     def adicionar_dominacao(self):
-        # Lógica para adicionar dominação ao planeta
-        pass
+        dominacao = self.dominacao_planeta_entry.get()
+
+        resposta = self.controller.banco.inserir_dominancia(dominacao)
+        messagebox.showinfo(title='AVISO', message=resposta)
+        self.controller.show_frame("Tela_Overview")
