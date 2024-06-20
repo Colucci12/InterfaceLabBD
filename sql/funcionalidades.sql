@@ -29,7 +29,7 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_FUNCIONALIDADES AS
     Funcionalidade do lider:
     Gerenciar aspectos da faccao: Alterar nome da faccao
     */ 
-    PROCEDURE FUNCLIDER_ALTERARNOMEFACCAO(
+    CREATE OR REPLACE PROCEDURE FUNCLIDER_ALTERARNOMEFACCAO(
         p_Userid NUMBER,
         p_NovoNome VARCHAR2
     ) IS
@@ -44,27 +44,30 @@ CREATE OR REPLACE PACKAGE BODY PACKAGE_FUNCIONALIDADES AS
         JOIN LIDER l ON u.IdLider = l.CPI
         JOIN FACCAO f ON f.LIDER = l.CPI
         WHERE u.Userid = p_Userid;
-        
+
         -- Alterar o nome da facção
         UPDATE FACCAO
         SET NOME = p_NovoNome
         WHERE LIDER = v_CPI;
-        
+
         -- Registrar a operação na LOG_TABLE usando o procedimento InsertLog
         InsertLog(p_Userid, 'Nome da facção alterado para: ' || p_NovoNome);
 
         -- Commit da operacao
         COMMIT;
-        
+
         -- Printa para o usuario
         DBMS_OUTPUT.PUT_LINE('Nome da facção alterado para: ' || p_NovoNome);
 
     EXCEPTION
         WHEN NO_DATA_FOUND THEN
+            ROLLBACK;
             RAISE_APPLICATION_ERROR(-20001, 'Usuário não é líder de facção ou usuário inválido.');
         WHEN DUP_VAL_ON_INDEX THEN
+            ROLLBACK;
             RAISE_APPLICATION_ERROR(-20002, 'Já existe uma facção com o nome fornecido.');
         WHEN OTHERS THEN
+            ROLLBACK;
             IF SQLCODE = -2292 THEN
                 RAISE_APPLICATION_ERROR(-20003, 'Não é possível alterar o nome porque a facção possui registros filhos.');
             ELSE

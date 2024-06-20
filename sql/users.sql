@@ -209,6 +209,11 @@ CREATE OR REPLACE PROCEDURE InsertLog(
     p_Message VARCHAR2
 ) IS
 BEGIN
+    -- Inserir log na tabela LOG_TABLE
     INSERT INTO LOG_TABLE (Userid, message)
     VALUES (p_Userid, p_Message);
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Relevantar a exceção para notificação do erro
+        RAISE;
 END;
